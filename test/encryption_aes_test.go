@@ -16,5 +16,6 @@ func Test_encrypt(t *testing.T) {
 	//解密
 	if encryption.AesDecrypt(encryptOrig, encryptionAesTestKey) != encryptionAesTestOrig {
 		t.Error("加密 != 解密")
+		return
 	}
 }
