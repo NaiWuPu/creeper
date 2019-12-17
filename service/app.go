@@ -45,6 +45,7 @@ func ResetSecret(appId uint) *OutPut {
 	appResetSecret.Secret = appModel.Secret
 	//开启事务处理
 	tx := db.Begin()
+	defer tx.Close()
 	//记录旧secret
 	tx.Create(appResetSecret)
 	if appResetSecret.ID <= 0 {
