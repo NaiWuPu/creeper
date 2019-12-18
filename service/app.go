@@ -64,3 +64,20 @@ func ResetSecret(appId uint) *OutPut {
 	tx.Commit()
 	return &OutPut{Data: appModel}
 }
+
+//通过appId & secret 获取app
+func FindAppBySecret(appId uint, secret string) *OutPut {
+	db, err := db_conn.GetGormDB()
+	defer db.Close()
+	if err != nil {
+		return &OutPut{Error: err}
+	}
+	appModel := new(orm_model.App)
+	db.Find(appModel, map[string]interface{}{
+		"id":     appId,
+		"secret": secret})
+	if appModel.ID <= 0 {
+		return &OutPut{Error: errors.New("未找到对应应用")}
+	}
+	return &OutPut{Data: appModel}
+}
