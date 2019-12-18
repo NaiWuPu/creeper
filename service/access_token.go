@@ -2,6 +2,7 @@ package service
 
 import (
 	"creeper/app"
+	"creeper/cache"
 	"creeper/db_conn"
 	"creeper/orm_model"
 	"errors"
@@ -31,4 +32,16 @@ func CreateAccessToken(appID uint, secret string) *OutPut {
 	}
 
 	return &OutPut{Data: accessTokenModel}
+}
+
+//验证access_token(使用缓存处理)
+func CheckAccessToken(appID uint, accessToken string) *OutPut {
+	cacheAppId, _, err := cache.GetAccessToken(accessToken)
+	if err != nil {
+		return &OutPut{Error: err}
+	}
+	if cacheAppId != appID {
+		return &OutPut{Error: errors.New("access_token 无效")}
+	}
+	return &OutPut{}
 }
