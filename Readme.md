@@ -20,7 +20,7 @@
 - 对称加密使用 AES/CBC/PKCS7Padding
 - access_token 32位
 - swagger文档 https://github.com/swaggo/gin-swagger
-                
+- validate 数据验证 https://github.com/go-playground/validator 
 
 ##### 接口文档使用 gin-swagger
 - 对应目录 creeper_http_api, 使用 swag init -g creeper_http_api/doc.go -o creeper_http_docs, 访问地址 http://127.0.0.1:8081/swagger/index.html
