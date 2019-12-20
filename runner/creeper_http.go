@@ -1,10 +1,14 @@
 package runner
 
 import (
+	//加载api文档使用
+	_ "creeper/creeper_http_docs"
 	"fmt"
 	"github.com/Unknwon/goconfig"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
+	"github.com/swaggo/files"
+	"github.com/swaggo/gin-swagger"
 	"net/http"
 	"strings"
 )
@@ -21,24 +25,32 @@ var creeperApiEngine *gin.Engine
 //存储路由
 var creeperApiEngineRouters []*creeperApiEngineRouter
 
-//系统管理api
 func CreeperApiRunner() {
-	gin.SetMode("debug")
-	creeperApiEngine = gin.Default()
-	//允许使用跨域请求,全局中间件
-	//creeperApiEngine.Use(cors())
 	//启动设置端口
 	cfg, err := goconfig.LoadConfigFile("etc/creeper.ini")
 	if err != nil {
 		panic(err)
 	}
+	mode, err := cfg.GetValue("web", "mode")
+	if err != nil {
+		panic(err)
+	}
+	gin.SetMode(mode)
+	creeperApiEngine = gin.Default()
+	//允许使用跨域请求,全局中间件
+	creeperApiEngine.Use(cors())
 	httpPort, err := cfg.GetValue("web", "http_port")
 	if err != nil {
 		panic(err)
 	}
 	//路由加载
 	loadCreeperApiEngineRouter()
-
+	if mode == "debug" {
+		//swagger
+		url := ginSwagger.URL(fmt.Sprintf("http://127.0.0.1:%s/swagger/doc.json", httpPort)) // The url pointing to API definition
+		creeperApiEngine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
+	}
+	//启动
 	err = creeperApiEngine.Run(fmt.Sprintf(":%s", httpPort))
 	if err != nil {
 		panic(err)
@@ -77,8 +89,8 @@ func cors() gin.HandlerFunc {
 		if method == "OPTIONS" {
 			c.JSON(http.StatusOK, "Options Request!")
 		}
-		// 处理请求
-		c.Next() //  处理请求
+		//处理请求
+		c.Next()
 	}
 }
 

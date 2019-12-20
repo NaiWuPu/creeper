@@ -1,2 +1,4 @@
 .idea/
 vendor
+creeper_http_docs/*
+!creeper_http_docs/Readme.md
