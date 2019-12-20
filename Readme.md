@@ -1,6 +1,7 @@
 #Creeper 苦力怕
+*起名字很难*
 
-##### 接口中继
+##### **接口中继**
 
 - 1.应用管理-~~创建~~，删除，~~secret重置~~
 - 2.平台接口接入鉴权
@@ -14,19 +15,20 @@
 - 10.管理http api
 - 11.表单验证
 
-
-##### 内容记录
+##### **内容记录**
 - app secret 32位
 - 对称加密使用 AES/CBC/PKCS7Padding
 - access_token 32位
 - swagger文档 https://github.com/swaggo/gin-swagger
 - validate 数据验证 https://github.com/go-playground/validator 
 
-##### 接口文档使用 gin-swagger
-- 对应目录 creeper_http_api, 使用 swag init -g creeper_http_api/doc.go -o creeper_http_docs, 访问地址 http://127.0.0.1:8081/swagger/index.html
+##### **接口文档使用 gin-swagger**
+1. 对应目录 creeper_http_api:
+		使用 swag init -g creeper_http_api/doc.go -o creeper_http_docs
+		访问地址 http://127.0.0.1:8081/swagger/index.html
 
 
-##### 目录结构
+##### **目录结构**
 - creeper_http_api 平台接口
 - runner 项目启动项文件
 - orm_model gorm模拟目录，不建议放业务代码
