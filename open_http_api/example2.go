@@ -3,6 +3,7 @@ package open_http_api
 import (
 	"creeper/app"
 	"creeper/runner"
+	"github.com/Unknwon/goconfig"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
@@ -15,28 +16,52 @@ func init() {
 }
 
 func PostDemo(c *gin.Context) {
+	cfg, err := goconfig.LoadConfigFile("etc/http_proxy.ini")
+	if err != nil {
+		panic(err)
+	}
+	proxyInfo, err := cfg.GetSection("demo_proxy")
+	if err != nil {
+		panic(err)
+	}
 	app.CreeperProxy(
 		&app.CreeperProxyHost{
 			Ctx:    c,
-			Host:   "127.0.0.1:8081",
+			Host:   proxyInfo["host"],
 			Path:   "/Demo3",
-			Scheme: "http"})
+			Scheme: proxyInfo["scheme"]})
 }
 
 func GetDemo(c *gin.Context) {
+	cfg, err := goconfig.LoadConfigFile("etc/http_proxy.ini")
+	if err != nil {
+		panic(err)
+	}
+	proxyInfo, err := cfg.GetSection("demo_proxy")
+	if err != nil {
+		panic(err)
+	}
 	app.CreeperProxy(
 		&app.CreeperProxyHost{
 			Ctx:    c,
-			Host:   "127.0.0.1:8081",
+			Host:   proxyInfo["host"],
 			Path:   "/Demo3",
-			Scheme: "http"})
+			Scheme: proxyInfo["scheme"]})
 }
 
 func PutDemo(c *gin.Context) {
+	cfg, err := goconfig.LoadConfigFile("etc/http_proxy.ini")
+	if err != nil {
+		panic(err)
+	}
+	proxyInfo, err := cfg.GetSection("demo_proxy")
+	if err != nil {
+		panic(err)
+	}
 	app.CreeperProxy(
 		&app.CreeperProxyHost{
 			Ctx:    c,
-			Host:   "127.0.0.1:8081",
+			Host:   proxyInfo["host"],
 			Path:   "/Demo3",
-			Scheme: "http"})
+			Scheme: proxyInfo["scheme"]})
 }
