@@ -12,67 +12,67 @@ import (
 )
 
 //路由
-type creeperApiEngineRouter struct {
+type openApiEngineRouter struct {
 	routerPath  string
 	method      []string
 	handlerFunc gin.HandlerFunc
 }
 
-var creeperApiEngine *gin.Engine
+var openApiEngine *gin.Engine
 
 //存储路由
-var creeperApiEngineRouters []*creeperApiEngineRouter
+var openApiEngineRouters []*openApiEngineRouter
 
-func CreeperApiRunner() {
+func OpenApiRunner() {
 	//启动设置端口
 	cfg, err := goconfig.LoadConfigFile("etc/creeper.ini")
 	if err != nil {
 		panic(err)
 	}
-	mode, err := cfg.GetValue("web", "mode")
+	mode, err := cfg.GetValue("open_api", "mode")
 	if err != nil {
 		panic(err)
 	}
 	gin.SetMode(mode)
-	creeperApiEngine = gin.New()
+	openApiEngine = gin.New()
 	//允许使用跨域请求,全局中间件
-	creeperApiEngine.Use(cors())
-	httpPort, err := cfg.GetValue("web", "http_port")
+	openApiEngine.Use(cors())
+	httpPort, err := cfg.GetValue("open_api", "http_port")
 	if err != nil {
 		panic(err)
 	}
 	//路由加载
-	loadCreeperApiEngineRouter()
+	loadOpenApiEngineRouter()
 	if mode == "debug" {
 		//swagger
 		url := ginSwagger.URL(fmt.Sprintf("http://127.0.0.1:%s/swagger/doc.json", httpPort)) // The url pointing to API definition
-		creeperApiEngine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
+		openApiEngine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 	}
 	//启动
-	err = creeperApiEngine.Run(fmt.Sprintf(":%s", httpPort))
+	err = openApiEngine.Run(fmt.Sprintf(":%s", httpPort))
 	if err != nil {
 		panic(err)
 	}
 }
 
 //给控制器注册路由使用
-func RegisterCreeperApiRunner(routerPath string, method []string, handlerFunc gin.HandlerFunc) {
-	creeperApiEngineRouters = append(creeperApiEngineRouters, &creeperApiEngineRouter{
+func RegisterOpenApiRunner(routerPath string, method []string, handlerFunc gin.HandlerFunc) {
+	openApiEngineRouters = append(openApiEngineRouters, &openApiEngineRouter{
 		routerPath:  routerPath,
 		method:      method,
 		handlerFunc: handlerFunc})
-	logrus.Info("路由长度：", len(creeperApiEngineRouters))
+	logrus.Info("路由长度：", len(openApiEngineRouters))
 }
 
 //加载已经注册的路由
-func loadCreeperApiEngineRouter() {
-	for _, router := range creeperApiEngineRouters {
+func loadOpenApiEngineRouter() {
+	for _, router := range openApiEngineRouters {
 		//method空就是所有
 		if len(router.method) == 0 {
-			creeperApiEngine.Any(router.routerPath, router.handlerFunc)
+			openApiEngine.Any(router.routerPath, router.handlerFunc)
 		} else {
 			for _, m := range router.method {
-				creeperApiEngine.Handle(m, router.routerPath, router.handlerFunc)
+				openApiEngine.Handle(m, router.routerPath, router.handlerFunc)
 			}
 		}
 	}

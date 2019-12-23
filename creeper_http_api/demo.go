@@ -2,6 +2,7 @@ package creeper_http_api
 
 import (
 	"creeper/runner"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
@@ -33,7 +34,8 @@ func PutDemo(c *gin.Context) {
 }
 
 func Demo3(c *gin.Context) {
+	method := c.Request.Method
 	c.JSON(200, gin.H{
-		"message": "Demo3 pong",
+		"message": fmt.Sprintf("Demo3 pong, method: %s", method),
 	})
 }
