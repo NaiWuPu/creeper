@@ -1,14 +1,10 @@
 package runner
 
 import (
-	//加载api文档使用
-	_ "creeper/creeper_http_docs"
 	"fmt"
 	"github.com/Unknwon/goconfig"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
-	"github.com/swaggo/files"
-	"github.com/swaggo/gin-swagger"
 )
 
 //路由
@@ -43,11 +39,11 @@ func OpenApiRunner() {
 	}
 	//路由加载
 	loadOpenApiEngineRouter()
-	if mode == "debug" {
-		//swagger
-		url := ginSwagger.URL(fmt.Sprintf("http://127.0.0.1:%s/swagger/doc.json", httpPort)) // The url pointing to API definition
-		openApiEngine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
-	}
+	//if mode == "debug" {
+	//	//swagger
+	//	url := ginSwagger.URL(fmt.Sprintf("http://127.0.0.1:%s/swagger/doc.json", httpPort))
+	//	openApiEngine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
+	//}
 	//启动
 	err = openApiEngine.Run(fmt.Sprintf(":%s", httpPort))
 	if err != nil {
