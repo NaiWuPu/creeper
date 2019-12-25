@@ -27,6 +27,8 @@ require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/gin-gonic/gin v1.5.0
 	github.com/jinzhu/gorm v1.9.11
+	github.com/nats-io/nats-server/v2 v2.1.2 // indirect
+	github.com/nats-io/nats.go v1.9.1
 	github.com/sirupsen/logrus v1.4.2
 	github.com/smartystreets/goconvey v1.6.4 // indirect
 	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14
