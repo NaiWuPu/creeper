@@ -1,5 +1,6 @@
-package encryption
+package app
 
+//加密方式
 import (
 	"bytes"
 	"crypto/aes"

@@ -1,7 +1,7 @@
 package test
 
 import (
-	"creeper/encryption"
+	"creeper/app"
 	"log"
 	"testing"
 )
@@ -11,10 +11,10 @@ var encryptionAesTestOrig = "hello world"
 
 func Test_encrypt(t *testing.T) {
 	//加密
-	encryptOrig := encryption.AesEncrypt(encryptionAesTestOrig, encryptionAesTestKey)
+	encryptOrig := app.AesEncrypt(encryptionAesTestOrig, encryptionAesTestKey)
 	log.Println("加密内容：", encryptOrig)
 	//解密
-	if encryption.AesDecrypt(encryptOrig, encryptionAesTestKey) != encryptionAesTestOrig {
+	if app.AesDecrypt(encryptOrig, encryptionAesTestKey) != encryptionAesTestOrig {
 		t.Error("加密 != 解密")
 		t.Fail()
 		return
